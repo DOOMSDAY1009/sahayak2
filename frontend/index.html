@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#0b1024" />
+<title>Sahayak</title>
+<style>
+  :root{
+    --bg1:#0b1024; --bg2:#111a3a;
+    --glass:rgba(255,255,255,.07);
+    --stroke:rgba(255,255,255,.16);
+    --accent:#6ee7ff; --accent2:#a78bfa;
+    --ink:#eaf2ff; --muted:#9fb3d8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Segoe UI',system-ui,sans-serif; color:var(--ink);
+    background:linear-gradient(180deg,#070b18,#0b1024);
+    display:flex; align-items:center; justify-content:center;
+  }
+  /* PHONE-APP FRAME */
+  .app{
+    position:relative; width:100%; max-width:430px; height:100dvh; min-height:560px;
+    display:flex; flex-direction:column;
+    background:
+      radial-gradient(600px 360px at 20% 0%, #1b2a55 0%, transparent 60%),
+      radial-gradient(520px 420px at 100% 100%, #3a1d5e 0%, transparent 55%),
+      linear-gradient(170deg,var(--bg1),var(--bg2));
+    overflow:hidden;
+  }
+  @media(min-width:480px){
+    .app{height:92dvh; border-radius:34px; border:1px solid var(--stroke);
+      box-shadow:0 40px 100px rgba(0,0,0,.6);}
+  }
+
+  /* TOP APP BAR */
+  .bar{display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px 6px;}
+  .wordmark{display:flex; align-items:center; gap:10px;}
+  .logo{width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(110,231,255,.35);}
+  .logo svg{width:18px;height:18px;fill:#0a1330;}
+  .wordmark b{font-size:20px; letter-spacing:.5px;}
+  .wordmark span{display:block; font-size:10px; letter-spacing:3px; color:var(--accent); margin-top:-2px;}
+  .lang{appearance:none; background:var(--glass); color:var(--ink);
+    border:1px solid var(--stroke); border-radius:999px; padding:8px 12px;
+    font-size:13px; outline:none; max-width:140px;}
+  .lang option{background:#0b1024;}
+
+  /* MAIN */
+  .main{flex:1; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; padding:8px 22px; text-align:center; overflow-y:auto;}
+  .greet{font-size:24px; font-weight:700; margin-bottom:4px;
+    background:linear-gradient(90deg,#fff,#bcd8ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{font-size:13px; color:var(--muted); margin-bottom:30px;}
+
+  /* MIC ORB */
+  .orb-wrap{position:relative; width:148px; height:148px; margin-bottom:22px;}
+  .orb{position:absolute; inset:0; border:none; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #bff4ff, #4aa6ff 45%, #6d44c9 100%);
+    box-shadow:0 0 40px rgba(110,231,255,.45), inset 0 6px 18px rgba(255,255,255,.4);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1);}
+  .orb:active{transform:scale(.94);}
+  .orb svg{width:54px;height:54px;fill:#0a1330;}
+  .ring{position:absolute; inset:0; border-radius:50%; border:2px solid var(--accent); opacity:0;}
+  .listening .orb{animation:breathe 2s ease-in-out infinite;}
+  .listening .ring{animation:ping 1.8s ease-out infinite;}
+  .listening .ring:nth-child(2){animation-delay:.6s;}
+  .listening .ring:nth-child(3){animation-delay:1.2s;}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  @keyframes ping{0%{transform:scale(.75);opacity:.6} 100%{transform:scale(1.7);opacity:0}}
+
+  .hint{font-size:13px; color:var(--muted); min-height:18px; margin-bottom:8px;}
+  .heard{font-size:17px; font-weight:600; min-height:24px; margin-bottom:6px;}
+
+  /* RESULT card — glass panel that smoothly rises */
+  .result{width:100%; text-align:left; border-radius:20px;
+    max-height:0; opacity:0; overflow:hidden; transform:translateY(10px);
+    background:linear-gradient(135deg, rgba(110,231,255,.10), rgba(167,139,250,.08));
+    border:1px solid transparent; backdrop-filter:blur(12px);
+    transition:max-height .55s cubic-bezier(.2,.8,.2,1), opacity .45s, padding .45s, transform .45s, border-color .45s;}
+  .result.show{max-height:60dvh; opacity:1; padding:18px 18px; transform:translateY(0);
+    border-color:var(--stroke); overflow-y:auto;}
+  .svc{display:flex; align-items:center; gap:12px; font-size:21px; font-weight:700;}
+  .svc .emoji{font-size:30px;}
+  .svc small{display:block; font-size:12px; color:var(--muted); font-weight:400; margin-top:2px;}
+  .items{list-style:none; margin-top:14px;}
+  .items li{padding:9px 11px; margin-top:7px; border-radius:11px;
+    background:rgba(255,255,255,.05); font-size:14px; display:flex; gap:9px; align-items:center;}
+  .items li::before{content:"✓"; color:var(--accent); font-weight:700;}
+  .nomatch{font-size:15px; color:#ffd6a5;}
+  .meta{margin-top:12px; font-size:11px; color:#7f93b8;}
+
+  .foot{text-align:center; font-size:10px; letter-spacing:2px; color:#5e6f96; padding:10px 0 16px;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="bar">
+    <div class="wordmark">
+      <div class="logo"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg></div>
+      <div><b>Sahayak</b><span>VOICE HELPER</span></div>
+    </div>
+    <select class="lang" id="lang" title="Language"></select>
+  </div>
+
+  <div class="main">
+    <div class="greet" id="greet">बोलिए, मैं सुन रहा हूँ</div>
+    <div class="sub" id="sub">अपनी समस्या अपनी भाषा में बताइए</div>
+
+    <div class="orb-wrap" id="orbWrap">
+      <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+      <button class="orb" id="mic" aria-label="Tap to speak">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+      </button>
+    </div>
+
+    <div class="hint" id="hint">Tap to speak</div>
+    <div class="heard" id="heard"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="foot">SAHAYAK • 16 LANGUAGES • FOR RURAL INDIA</div>
+</div>
+
+<script>
+const LANGS = [
+  {code:"hi-IN", name:"हिन्दी"}, {code:"bn-IN", name:"বাংলা"}, {code:"te-IN", name:"తెలుగు"},
+  {code:"mr-IN", name:"मराठी"}, {code:"ta-IN", name:"தமிழ்"}, {code:"gu-IN", name:"ગુજરાતી"},
+  {code:"kn-IN", name:"ಕನ್ನಡ"}, {code:"ml-IN", name:"മലയാളം"}, {code:"pa-IN", name:"ਪੰਜਾਬੀ"},
+  {code:"or-IN", name:"ଓଡ଼ିଆ"}, {code:"as-IN", name:"অসমীয়া"}, {code:"ur-IN", name:"اردو"},
+  {code:"ne-NP", name:"नेपाली"}, {code:"sd-IN", name:"سنڌي"}, {code:"kok-IN", name:"कोंकणी"},
+  {code:"en-IN", name:"English"},
+];
+const langSel=document.getElementById("lang");
+LANGS.forEach(l=>{const o=document.createElement("option");o.value=l.code;o.textContent=l.name;langSel.appendChild(o);});
+
+// ---- UI translations for all 16 languages -------------------------
+const I18N={
+ "hi-IN":{greet:"बोलिए, मैं सुन रहा हूँ",sub:"अपनी समस्या अपनी भाषा में बताइए",tap:"बोलने के लिए टैप करें",listening:"सुन रहा हूँ… बोलिए",thinking:"सोच रहा हूँ…",askAgain:"दोबारा पूछने के लिए माइक दबाएं",errConn:"सर्वर से कनेक्शन नहीं हो रहा। सर्वर चालू है?",errHeard:"समझ नहीं आया — फिर कोशिश करें",langLabel:"भाषा",notAvail:"यह सेवा अभी उपलब्ध नहीं है।"},
+ "en-IN":{greet:"Speak, I'm listening",sub:"Tell your problem in your own language",tap:"Tap to speak",listening:"Listening… speak now",thinking:"Thinking…",askAgain:"Tap the mic to ask again",errConn:"Can't reach the server. Is it running?",errHeard:"Didn't catch that — try again",langLabel:"Language",notAvail:"This service is not available yet."},
+ "bn-IN":{greet:"বলুন, আমি শুনছি",sub:"আপনার সমস্যা নিজের ভাষায় বলুন",tap:"বলতে ট্যাপ করুন",listening:"শুনছি… বলুন",thinking:"ভাবছি…",askAgain:"আবার জিজ্ঞাসা করতে মাইকে ট্যাপ করুন",errConn:"সার্ভারে সংযোগ হচ্ছে না। সার্ভার চালু আছে?",errHeard:"বুঝতে পারিনি — আবার চেষ্টা করুন",langLabel:"ভাষা",notAvail:"এই সেবা এখনো উপলব্ধ নয়।"},
+ "te-IN":{greet:"చెప్పండి, నేను వింటున్నాను",sub:"మీ సమస్యను మీ భాషలో చెప్పండి",tap:"మాట్లాడటానికి ట్యాప్ చేయండి",listening:"వింటున్నాను… చెప్పండి",thinking:"ఆలోచిస్తున్నాను…",askAgain:"మళ్లీ అడగడానికి మైక్ నొక్కండి",errConn:"సర్వర్‌కు కనెక్ట్ కావడం లేదు. సర్వర్ నడుస్తోందా?",errHeard:"అర్థం కాలేదు — మళ్లీ ప్రయత్నించండి",langLabel:"భాష",notAvail:"ఈ సేవ ఇంకా అందుబాటులో లేదు."},
+ "mr-IN":{greet:"बोला, मी ऐकत आहे",sub:"तुमची समस्या तुमच्या भाषेत सांगा",tap:"बोलण्यासाठी टॅप करा",listening:"ऐकत आहे… बोला",thinking:"विचार करत आहे…",askAgain:"पुन्हा विचारण्यासाठी माईक दाबा",errConn:"सर्व्हरशी कनेक्शन होत नाही. सर्व्हर सुरू आहे?",errHeard:"समजले नाही — पुन्हा प्रयत्न करा",langLabel:"भाषा",notAvail:"ही सेवा अद्याप उपलब्ध नाही."},
+ "ta-IN":{greet:"சொல்லுங்கள், நான் கேட்கிறேன்",sub:"உங்கள் பிரச்சினையை உங்கள் மொழியில் சொல்லுங்கள்",tap:"பேச தட்டவும்",listening:"கேட்கிறேன்… சொல்லுங்கள்",thinking:"யோசிக்கிறேன்…",askAgain:"மீண்டும் கேட்க மைக்கை தட்டவும்",errConn:"சர்வருடன் இணைக்க முடியவில்லை. சர்வர் இயங்குகிறதா?",errHeard:"புரியவில்லை — மீண்டும் முயற்சிக்கவும்",langLabel:"மொழி",notAvail:"இந்த சேவை இன்னும் கிடைக்கவில்லை."},
+ "gu-IN":{greet:"બોલો, હું સાંભળું છું",sub:"તમારી સમસ્યા તમારી ભાષામાં કહો",tap:"બોલવા માટે ટૅપ કરો",listening:"સાંભળું છું… બોલો",thinking:"વિચારું છું…",askAgain:"ફરી પૂછવા માઇક દબાવો",errConn:"સર્વર સાથે જોડાણ થતું નથી. સર્વર ચાલુ છે?",errHeard:"સમજાયું નહીં — ફરી પ્રયત્ન કરો",langLabel:"ભાષા",notAvail:"આ સેવા હજી ઉપલબ્ધ નથી."},
+ "kn-IN":{greet:"ಹೇಳಿ, ನಾನು ಕೇಳುತ್ತಿದ್ದೇನೆ",sub:"ನಿಮ್ಮ ಸಮಸ್ಯೆಯನ್ನು ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಹೇಳಿ",tap:"ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ",listening:"ಕೇಳುತ್ತಿದ್ದೇನೆ… ಹೇಳಿ",thinking:"ಯೋಚಿಸುತ್ತಿದ್ದೇನೆ…",askAgain:"ಮತ್ತೆ ಕೇಳಲು ಮೈಕ್ ಒತ್ತಿ",errConn:"ಸರ್ವರ್‌ಗೆ ಸಂಪರ್ಕ ಆಗುತ್ತಿಲ್ಲ. ಸರ್ವರ್ ಚಾಲನೆಯಲ್ಲಿದೆಯೇ?",errHeard:"ಅರ್ಥವಾಗಲಿಲ್ಲ — ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",langLabel:"ಭಾಷೆ",notAvail:"ಈ ಸೇವೆ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ."},
+ "ml-IN":{greet:"പറയൂ, ഞാൻ കേൾക്കുന്നു",sub:"നിങ്ങളുടെ പ്രശ്നം നിങ്ങളുടെ ഭാഷയിൽ പറയൂ",tap:"സംസാരിക്കാൻ ടാപ്പ് ചെയ്യൂ",listening:"കേൾക്കുന്നു… പറയൂ",thinking:"ആലോചിക്കുന്നു…",askAgain:"വീണ്ടും ചോദിക്കാൻ മൈക്ക് അമർത്തൂ",errConn:"സെർവറുമായി ബന്ധിപ്പിക്കാൻ കഴിയുന്നില്ല. സെർവർ പ്രവർത്തിക്കുന്നുണ്ടോ?",errHeard:"മനസ്സിലായില്ല — വീണ്ടും ശ്രമിക്കൂ",langLabel:"ഭാഷ",notAvail:"ഈ സേവനം ഇതുവരെ ലഭ്യമല്ല."},
+ "pa-IN":{greet:"ਬੋਲੋ, ਮੈਂ ਸੁਣ ਰਿਹਾ ਹਾਂ",sub:"ਆਪਣੀ ਸਮੱਸਿਆ ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ ਦੱਸੋ",tap:"ਬੋਲਣ ਲਈ ਟੈਪ ਕਰੋ",listening:"ਸੁਣ ਰਿਹਾ ਹਾਂ… ਬੋਲੋ",thinking:"ਸੋਚ ਰਿਹਾ ਹਾਂ…",askAgain:"ਦੁਬਾਰਾ ਪੁੱਛਣ ਲਈ ਮਾਈਕ ਦਬਾਓ",errConn:"ਸਰਵਰ ਨਾਲ ਕਨੈਕਸ਼ਨ ਨਹੀਂ ਹੋ ਰਿਹਾ। ਸਰਵਰ ਚਾਲੂ ਹੈ?",errHeard:"ਸਮਝ ਨਹੀਂ ਆਇਆ — ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ",langLabel:"ਭਾਸ਼ਾ",notAvail:"ਇਹ ਸੇਵਾ ਅਜੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"},
+ "or-IN":{greet:"କୁହନ୍ତୁ, ମୁଁ ଶୁଣୁଛି",sub:"ଆପଣଙ୍କ ସମସ୍ୟା ନିଜ ଭାଷାରେ କୁହନ୍ତୁ",tap:"କହିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ",listening:"ଶୁଣୁଛି… କୁହନ୍ତୁ",thinking:"ଭାବୁଛି…",askAgain:"ପୁଣି ପଚାରିବାକୁ ମାଇକ୍ ଦବାନ୍ତୁ",errConn:"ସର୍ଭର ସହ ସଂଯୋଗ ହେଉନାହିଁ। ସର୍ଭର ଚାଲୁ ଅଛି?",errHeard:"ବୁଝି ପାରିଲି ନାହିଁ — ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ",langLabel:"ଭାଷା",notAvail:"ଏହି ସେବା ଏବେ ଉପଲବ୍ଧ ନାହିଁ।"},
+ "as-IN":{greet:"কওক, মই শুনি আছোঁ",sub:"আপোনাৰ সমস্যা নিজৰ ভাষাত কওক",tap:"ক'বলৈ টেপ কৰক",listening:"শুনি আছোঁ… কওক",thinking:"ভাবি আছোঁ…",askAgain:"পুনৰ সুধিবলৈ মাইক টিপক",errConn:"ছাৰ্ভাৰৰ সৈতে সংযোগ হোৱা নাই। ছাৰ্ভাৰ চালু আছেনে?",errHeard:"বুজি নাপালোঁ — পুনৰ চেষ্টা কৰক",langLabel:"ভাষা",notAvail:"এই সেৱা এতিয়াও উপলব্ধ নহয়।"},
+ "ur-IN":{greet:"بولیے، میں سن رہا ہوں",sub:"اپنا مسئلہ اپنی زبان میں بتائیے",tap:"بولنے کے لیے ٹیپ کریں",listening:"سن رہا ہوں… بولیے",thinking:"سوچ رہا ہوں…",askAgain:"دوبارہ پوچھنے کے لیے مائیک دبائیں",errConn:"سرور سے کنکشن نہیں ہو رہا۔ کیا سرور چل رہا ہے؟",errHeard:"سمجھ نہیں آیا — دوبارہ کوشش کریں",langLabel:"زبان",notAvail:"یہ سروس ابھی دستیاب نہیں ہے۔"},
+ "ne-NP":{greet:"भन्नुहोस्, म सुन्दै छु",sub:"आफ्नो समस्या आफ्नै भाषामा भन्नुहोस्",tap:"बोल्न ट्याप गर्नुहोस्",listening:"सुन्दै छु… भन्नुहोस्",thinking:"सोच्दै छु…",askAgain:"फेरि सोध्न माइक थिच्नुहोस्",errConn:"सर्भरसँग जडान हुँदैन। सर्भर चलिरहेको छ?",errHeard:"बुझिनँ — फेरि प्रयास गर्नुहोस्",langLabel:"भाषा",notAvail:"यो सेवा अहिले उपलब्ध छैन।"},
+ "sd-IN":{greet:"ڳالهايو، مان ٻڌي رهيو آهيان",sub:"پنهنجو مسئلو پنهنجي ٻوليءَ ۾ ٻڌايو",tap:"ڳالهائڻ لاءِ ٽيپ ڪريو",listening:"ٻڌي رهيو آهيان… ڳالهايو",thinking:"سوچي رهيو آهيان…",askAgain:"ٻيهر پڇڻ لاءِ مائيڪ دٻايو",errConn:"سرور سان ڪنيڪشن نٿو ٿئي۔",errHeard:"سمجهه ۾ نه آيو — ٻيهر ڪوشش ڪريو",langLabel:"ٻولي",notAvail:"هيءَ خدمت اڃا موجود ناهي۔"},
+ "kok-IN":{greet:"सांगात, हांव आयकतां",sub:"तुमची समस्या तुमच्या भाशेन सांगात",tap:"उलोवपाक टॅप करात",listening:"आयकतां… सांगात",thinking:"विचार करतां…",askAgain:"परत विचारपाक माईक दामात",errConn:"सर्व्हराकडेन जोडणी जायना. सर्व्हर चालू आसा?",errHeard:"समजलें ना — परत यत्न करात",langLabel:"भास",notAvail:"ही सेवा अजून उपलब्ध ना."},
+};
+// English names of each language — sent to the engine so the ANSWER comes
+// back in the language the user SELECTED (not the one the model guesses).
+const LANG_NAME={"hi-IN":"Hindi","bn-IN":"Bengali","te-IN":"Telugu","mr-IN":"Marathi",
+ "ta-IN":"Tamil","gu-IN":"Gujarati","kn-IN":"Kannada","ml-IN":"Malayalam","pa-IN":"Punjabi",
+ "or-IN":"Odia","as-IN":"Assamese","ur-IN":"Urdu","ne-NP":"Nepali","sd-IN":"Sindhi",
+ "kok-IN":"Konkani","en-IN":"English"};
+let T=I18N["hi-IN"];
+const greetEl=document.getElementById("greet"), subEl=document.getElementById("sub");
+function applyLang(){
+  T=I18N[langSel.value]||I18N["en-IN"];
+  greetEl.textContent=T.greet;
+  subEl.textContent=T.sub;
+  langSel.title=T.langLabel;
+  // only reset the hint to "tap" when idle (not mid-listen)
+  if(!listening) document.getElementById("hint").textContent=T.tap;
+  // RTL for Urdu & Sindhi
+  const rtl=(langSel.value==="ur-IN"||langSel.value==="sd-IN");
+  document.querySelector(".main").style.direction = rtl ? "rtl" : "ltr";
+}
+langSel.addEventListener("change",applyLang);
+
+const EMOJI={plumber:"🚰",electrician:"💡",tractor_rental:"🚜",harvester_rental:"🌾",farm_labour:"👷",
+  house_cleaning:"🧹",painter:"🎨",carpenter:"🪚",packers_movers:"📦",ac_repair:"❄️",
+  appliance_repair:"🔧",pest_control:"🐜",mason:"🧱",goods_transport:"🚚",borewell:"💧"};
+
+const mic=document.getElementById("mic"), orbWrap=document.getElementById("orbWrap");
+const hint=document.getElementById("hint"), heard=document.getElementById("heard"), resultEl=document.getElementById("result");
+
+function speak(text,lang){try{const u=new SpeechSynthesisUtterance(text);u.lang=lang;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+
+function showResult(data,lang){
+  resultEl.classList.remove("show");
+  if(data.matched){
+    const em=EMOJI[data.service_id]||"🔧";
+    const items=(data.required_items||[]).map(i=>`<li>${i}</li>`).join("");
+    const title=data.service_name_local||data.service_name;
+    resultEl.innerHTML=`<div class="svc"><span class="emoji">${em}</span>
+      <div>${title}<small>${data.problem_summary||""}</small></div></div>
+      <ul class="items">${items}</ul>
+      <div class="meta">${T.langLabel}: ${data.language_detected} · ${data.urgency} · ${Math.round((data.confidence||0)*100)}%</div>`;
+    speak(`${title}. `+(data.required_items||[]).slice(0,3).join(", "),lang);
+  }else{
+    resultEl.innerHTML=`<div class="nomatch">😔 ${data.message||T.notAvail}</div>`;
+    speak("Sorry, this service is not available yet.",lang);
+  }
+  void resultEl.offsetWidth; resultEl.classList.add("show");
+}
+
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let recog=null, listening=false;
+function startListening(){
+  if(!SR){hint.textContent="Please use Google Chrome for voice.";return;}
+  const lang=langSel.value;
+  recog=new SR(); recog.lang=lang; recog.interimResults=false; recog.maxAlternatives=1;
+  listening=true; orbWrap.classList.add("listening");
+  hint.textContent=T.listening; heard.textContent=""; resultEl.classList.remove("show");
+  recog.start();
+  recog.onresult=async(ev)=>{
+    const text=ev.results[0][0].transcript; heard.textContent=`“${text}”`; hint.textContent=T.thinking;
+    try{
+      const r=await fetch("/match",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({text,use_fast_path:false,reply_language:LANG_NAME[lang]||"English"})});
+      const data=await r.json(); hint.textContent=T.askAgain; showResult(data,lang);
+    }catch(e){hint.textContent=T.errConn;}
+  };
+  recog.onerror=()=>{hint.textContent=T.errHeard; stop();};
+  recog.onend=()=>stop();
+}
+function stop(){listening=false; orbWrap.classList.remove("listening");}
+mic.addEventListener("click",()=>{ if(listening){recog&&recog.stop();stop();} else startListening(); });
+
+applyLang(); // set the UI to the starting language
+</script>
+</body>
+</html>

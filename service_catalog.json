@@ -1,0 +1,125 @@
+{
+  "_comment": "KaryaSetu service catalog = the GROUND TRUTH. The LLM may ONLY map a request to an 'id' that exists in this file. To add a new service, add an entry here — no code change needed.",
+  "services": [
+    {
+      "id": "plumber",
+      "name_en": "Plumber",
+      "name_hi": "प्लंबर",
+      "keywords": ["tap", "nal", "नल", "leak", "pipe", "नली", "water", "paani", "पानी", "drainage", "toilet", "tanki", "टंकी", "basin", "geyser"],
+      "description": "Fixes leaking/broken taps, pipes, drainage, toilets, water tanks and water connections.",
+      "default_items": ["plumber visit charge", "spare parts (washer / tap / pipe)"]
+    },
+    {
+      "id": "electrician",
+      "name_en": "Electrician",
+      "name_hi": "बिजली मिस्त्री",
+      "keywords": ["light", "bijli", "बिजली", "current", "fan", "pankha", "पंखा", "switch", "wiring", "fuse", "meter", "short circuit", "power", "bulb"],
+      "description": "Fixes power/electrical faults: wiring, switches, fans, lights, fuses, short circuits, meters.",
+      "default_items": ["electrician visit charge", "spare parts (switch / wire / fuse)"]
+    },
+    {
+      "id": "tractor_rental",
+      "name_en": "Tractor Rental",
+      "name_hi": "ट्रैक्टर किराया",
+      "keywords": ["tractor", "ट्रैक्टर", "plough", "hal", "हल", "jot", "tilling", "ploughing", "field prep"],
+      "description": "Rent a tractor with driver for ploughing, tilling and field preparation.",
+      "default_items": ["tractor + driver (per hour/acre)", "fuel", "attachment (plough/rotavator)"]
+    },
+    {
+      "id": "harvester_rental",
+      "name_en": "Harvester Rental",
+      "name_hi": "हार्वेस्टर किराया",
+      "keywords": ["harvest", "fasal", "फसल", "katai", "कटाई", "cutting crop", "combine", "reaper"],
+      "description": "Rent a harvester / combine for cutting and harvesting standing crops.",
+      "default_items": ["harvester + operator", "fuel", "transport of harvested crop"]
+    },
+    {
+      "id": "farm_labour",
+      "name_en": "Farm Labour",
+      "name_hi": "खेत मजदूर",
+      "keywords": ["mazdoor", "मजदूर", "labour", "worker", "majdur", "sowing", "boai", "बुवाई", "weeding", "field work"],
+      "description": "Daily-wage workers for sowing, weeding, harvesting and general farm work.",
+      "default_items": ["number of workers", "wage per day", "tools (sickle/spade)"]
+    },
+    {
+      "id": "house_cleaning",
+      "name_en": "House Cleaning",
+      "name_hi": "घर की सफाई",
+      "keywords": ["clean", "safai", "सफाई", "saaf", "jhadu", "झाड़ू", "mopping", "pochha", "maid", "bai"],
+      "description": "Home deep-cleaning, sweeping, mopping, bathroom and kitchen cleaning.",
+      "default_items": ["cleaner visit", "cleaning supplies"]
+    },
+    {
+      "id": "painter",
+      "name_en": "Painter",
+      "name_hi": "पेंटर",
+      "keywords": ["paint", "रंग", "rang", "putai", "पुताई", "whitewash", "wall colour", "distemper"],
+      "description": "Wall painting, whitewashing and putty work for homes and shops.",
+      "default_items": ["painter labour", "paint / putty / brushes", "area (sq ft)"]
+    },
+    {
+      "id": "carpenter",
+      "name_en": "Carpenter",
+      "name_hi": "बढ़ई",
+      "keywords": ["wood", "lakdi", "लकड़ी", "carpenter", "badhai", "बढ़ई", "door", "darwaza", "दरवाज़ा", "furniture", "almirah", "table", "chair", "hinge"],
+      "description": "Wood/furniture work: doors, windows, repairs, hinges, new furniture.",
+      "default_items": ["carpenter labour", "wood / fittings / hardware"]
+    },
+    {
+      "id": "packers_movers",
+      "name_en": "Packers & Movers",
+      "name_hi": "सामान शिफ्टिंग",
+      "keywords": ["shift", "shifting", "move", "saman", "सामान", "ghar badalna", "घर बदलना", "relocate", "luggage", "transport home"],
+      "description": "Packing and moving household goods when relocating to a new home.",
+      "default_items": ["loading/unloading labour", "goods vehicle", "packing material (boxes/tape)"]
+    },
+    {
+      "id": "ac_repair",
+      "name_en": "AC Repair & Service",
+      "name_hi": "एसी रिपेयर",
+      "keywords": ["ac", "एसी", "air conditioner", "cooling", "gas refill", "ac service", "split ac"],
+      "description": "AC servicing, gas refill, cooling problems and AC installation.",
+      "default_items": ["technician visit", "gas / spare parts"]
+    },
+    {
+      "id": "appliance_repair",
+      "name_en": "Appliance Repair",
+      "name_hi": "उपकरण मरम्मत",
+      "keywords": ["fridge", "फ्रिज", "washing machine", "मशीन", "tv", "टीवी", "microwave", "cooler", "motor", "pump"],
+      "description": "Repair of fridge, washing machine, TV, cooler, water motor and other appliances.",
+      "default_items": ["technician visit", "spare parts"]
+    },
+    {
+      "id": "pest_control",
+      "name_en": "Pest Control",
+      "name_hi": "कीट नियंत्रण",
+      "keywords": ["pest", "keeda", "कीड़ा", "cockroach", "termite", "deemak", "दीमक", "mosquito", "rat", "chuha", "चूहा", "spray"],
+      "description": "Pest control for cockroaches, termites, mosquitoes, rodents and bedbugs.",
+      "default_items": ["technician visit", "pesticide spray / gel"]
+    },
+    {
+      "id": "mason",
+      "name_en": "Mason / Construction",
+      "name_hi": "राजमिस्त्री",
+      "keywords": ["mason", "mistri", "मिस्त्री", "cement", "सीमेंट", "brick", "eet", "ईंट", "construction", "plaster", "wall build", "chinai"],
+      "description": "Brickwork, plastering, cement work and small construction jobs.",
+      "default_items": ["mason labour", "cement / bricks / sand", "helper labour"]
+    },
+    {
+      "id": "goods_transport",
+      "name_en": "Goods Transport",
+      "name_hi": "माल ढुलाई",
+      "keywords": ["transport", "tempo", "टेम्पो", "truck", "ट्रक", "delivery", "dhulai", "ढुलाई", "carry goods", "pickup", "load vehicle"],
+      "description": "Vehicle (tempo/truck/pickup) to transport goods, produce or materials.",
+      "default_items": ["vehicle (per km / trip)", "loading/unloading labour", "fuel"]
+    },
+    {
+      "id": "borewell",
+      "name_en": "Borewell / Water Boring",
+      "name_hi": "बोरवेल",
+      "keywords": ["borewell", "boring", "बोरिंग", "submersible", "water boring", "tubewell", "नलकूप"],
+      "description": "Borewell drilling and submersible water pump installation.",
+      "default_items": ["drilling rig (per foot)", "casing pipe", "submersible pump + motor"]
+    }
+  ]
+}

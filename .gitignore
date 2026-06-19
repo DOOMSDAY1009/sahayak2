@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local logs / runtime artifacts
+*.log
+unmatched_requests.log
+cf.log
+
+# Secrets
+.env
+.env.*
+
+# Vercel
+.vercel/
