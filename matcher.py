@@ -33,7 +33,7 @@ PROVIDERS = {
     "groq": {
         "base_url": "https://api.groq.com/openai/v1",  # Groq = OpenAI-compatible
         "api_key_env": "GROQ_API_KEY",
-        "model": "llama-3.3-70b-versatile",  # free, strong open-source model
+        "model": "llama-3.1-8b-instant",  # free, fast — llama-3.3-70b-versatile was deprecated by Groq,  
     },
     "openai": {
         "base_url": None,  # OpenAI default endpoint
