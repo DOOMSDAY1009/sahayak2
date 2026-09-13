@@ -93,6 +93,7 @@
     background:rgba(255,255,255,.05); font-size:14px; display:flex; gap:9px; align-items:center;}
   .items li::before{content:"✓"; color:var(--accent); font-weight:700;}
   .nomatch{font-size:15px; color:#ffd6a5;}
+  .error{font-size:14px; color:#ff9a9a;}
   .meta{margin-top:12px; font-size:11px; color:#7f93b8;}
 
   .foot{text-align:center; font-size:10px; letter-spacing:2px; color:#5e6f96; padding:10px 0 16px;}
@@ -199,6 +200,10 @@ function showResult(data,lang){
       <ul class="items">${items}</ul>
       <div class="meta">${T.langLabel}: ${data.language_detected} · ${data.urgency} · ${Math.round((data.confidence||0)*100)}%</div>`;
     speak(`${title}. `+(data.required_items||[]).slice(0,3).join(", "),lang);
+  }else if(data.error){
+    // real backend/LLM failure — show it plainly instead of pretending
+    // it's a normal "service not available" outcome
+    resultEl.innerHTML=`<div class="error">⚠️ ${data.error}: ${data.detail||"Something went wrong on the server."}</div>`;
   }else{
     resultEl.innerHTML=`<div class="nomatch">😔 ${data.message||T.notAvail}</div>`;
     speak("Sorry, this service is not available yet.",lang);
